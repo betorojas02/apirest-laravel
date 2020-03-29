@@ -64,6 +64,7 @@ class ProductController extends Controller
 
 
             return response()->json([
+                'msn' => 'Creo Producto',
                 'data' => new ProductResource($product)
             ], Response::HTTP_CREATED);
         } catch (\Exception $th) {
@@ -114,6 +115,7 @@ class ProductController extends Controller
 
             $product->update($request->all());
             return response()->json([
+                'msn' => 'Actualizo Producto',
                 'data' => new ProductResource($product)
             ],  Response::HTTP_CREATED);
 
@@ -134,7 +136,7 @@ class ProductController extends Controller
 
             $product->delete();
             return response()->json([
-                'data' =>"Product Delete"
+                'msn' =>"Product Delete"
             ],  Response::HTTP_NO_CONTENT);
         } catch (\Exception $th) {
             return response()->json([

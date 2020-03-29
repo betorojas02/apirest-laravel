@@ -48,6 +48,7 @@ class ReviewController extends Controller
         $products->reviews()->save( $review);
 
         return response()->json([
+            'msn' => 'Creo Reviews',
             'data' => new ReviewResource($review)
         ],  Response::HTTP_CREATED);
     }
@@ -81,9 +82,18 @@ class ReviewController extends Controller
      * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Review $review)
+    public function update(Request $request, Product $products, Review $review)
     {
         //
+
+
+
+        $review->update($request->all());
+        return response()->json([
+            'msn' => 'Actualizo Reviews',
+            'data' => new ReviewResource($review)
+        ],  Response::HTTP_CREATED);
+
     }
 
     /**
@@ -92,8 +102,12 @@ class ReviewController extends Controller
      * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy(Product $products ,Review $review)
     {
         //
+        $review->delete();
+        return response()->json([
+            'msn' =>'Delete review'
+        ], Response::HTTP_NO_CONTENT);
     }
 }
