@@ -107,7 +107,7 @@ class ReviewController extends Controller
         //
         $review->delete();
         return response()->json([
-            'msn' =>'Delete review'
-        ], Response::HTTP_NO_CONTENT);
+            'msn' => 'Delete review'
+        ], Response::HTTP_RESET_CONTENT);
     }
 }

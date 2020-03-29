@@ -55,7 +55,7 @@ class Handler extends ExceptionHandler
     {
 
         if($exception instanceof ModelNotFoundException){
-            return response()->json(['errors'=>  'Product Model not fount'], Response:: HTTP_NOT_FOUND);
+            return response()->json(['errors'=>  ' Model not fount'], Response:: HTTP_NOT_FOUND);
         }
 
         if($exception instanceof NotFoundHttpException){
