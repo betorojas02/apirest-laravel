@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ProductNotBelongsToUser;
 use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
 use App\Model\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\product\ProductRequest;
+use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\TryCatch;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -104,7 +106,9 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         //
-        try {
+
+            $this->ProductUserCheck($product);
+
             $request['detail'] = $request->description;
             unset($request['description']);
 
@@ -112,11 +116,7 @@ class ProductController extends Controller
             return response()->json([
                 'data' => new ProductResource($product)
             ],  Response::HTTP_CREATED);
-        } catch (\Exception $th) {
-            return response()->json([
-                'data' => $th
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+
     }
 
     /**
@@ -141,5 +141,14 @@ class ProductController extends Controller
                 'data' => $th
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+
+    public function ProductUserCheck($product){
+
+        if(Auth::id() !== $product->user_id){
+            throw new ProductNotBelongsToUser();
+        }
+
     }
 }
